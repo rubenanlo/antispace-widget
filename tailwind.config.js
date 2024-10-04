@@ -16,7 +16,6 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        backDrop: "var(--backdrop)",
         "blue-primary": "var(--blue)",
         "green-primary": "var(--green)",
       },

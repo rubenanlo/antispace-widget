@@ -64,7 +64,7 @@ const Articles = ({ selectedSource }) => {
   return (
     <Show ternary>
       <Show.When isTrue={articles?.length > 0}>
-        <Container.Flex className="h-full w-full flex-col gap-y-10 overflow-auto scrollbar-hide">
+        <Container.Flex className="h-2/3 w-full flex-col gap-y-10 overflow-auto scrollbar-hide">
           {articles.map((article) => (
             <Article key={article.title} article={article} />
           ))}
