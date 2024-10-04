@@ -5,7 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #080808;
-  --backdrop: #201d22;
+  --widget-card: #828282;
   --blue: #80caff;
   --green: #6dbb3c;
 }
@@ -14,7 +14,7 @@
   :root {
     --background: #080808;
     --foreground: #ededed;
-    --backdrop: #201d22;
+    --widget-card: #525252;
     --blue: #80caff;
     --green: #6dbb3c;
   }

@@ -1,35 +1,38 @@
+import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 
-export const Typography = ({ className, children }) => (
-  <div className={clsx(className, "text-zinc-500 dark:text-gray-200")}>
-    {children}
-  </div>
-);
+export const Typography = {};
 
-Typography.Title = function TypographyTitle({ as, title, className, props }) {
+//eslint-disable-next-line
+Typography.Title = ({ as, title, className }) => {
   const Component = as ?? "h1";
 
   const variants = {
-    h1: "text-4xl font-bold tracking-tight sm:text-5xl",
-    h2: "text-2xl font-bold ",
+    h1: "font-bold tracking-tight text-2xl mb-5 pb-2 border-b border-widget-card",
+    h2: "text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100",
   };
 
   return (
-    <Component className={clsx(className, variants[as])} {...props}>
+    <Component className={clsx(className, variants[Component])}>
       {title}
     </Component>
   );
 };
 
-Typography.Paragraph = function TypographyParagraph({
-  paragraph,
-  children,
-  className,
-  ...props
-}) {
-  return (
-    <p className={clsx(className)} {...props}>
-      {paragraph || children}
-    </p>
-  );
-};
+//eslint-disable-next-line
+Typography.Paragraph = ({ paragraph, className }) => (
+  <p className={clsx(className)}>{paragraph}</p>
+);
+
+//eslint-disable-next-line
+Typography.Action = ({ text, noChevron }) => (
+  <div
+    aria-hidden="true"
+    className="text-orange-tertiary relative mt-4 flex text-sm font-medium"
+  >
+    {text}
+    {noChevron ? null : (
+      <ChevronRightIcon className="ml-1 w-4 stroke-current" />
+    )}
+  </div>
+);
