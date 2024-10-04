@@ -16,6 +16,7 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        "widget-card": "var(--widget-card)",
         "blue-primary": "var(--blue)",
         "green-primary": "var(--green)",
       },
