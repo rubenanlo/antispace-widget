@@ -32,10 +32,10 @@ import { useGeneralStore } from "@/providers/generalStore";
 
 // Main widget component that combines the source selector and articles list
 const WidgetNews = () => (
-  <>
+  <Container className="h-96 max-w-sm rounded-2xl border border-gray-600 p-5">
     <SelectSource />
     <Articles />
-  </>
+  </Container>
 );
 
 export default WidgetNews;
