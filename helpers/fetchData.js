@@ -1,19 +1,10 @@
 import useSWR from "swr";
 import { newsUrl } from "@/library/newsapi";
 
-// Fetcher function used by SWR to fetch data from the API
+// Fetcher function used by SWR to fetch data from the API. In case we want to
+// fetch data from other urls, I kept it separate
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 // Custom hook to fetch news sources and articles
-export const useFetchNews = (selectedSource) => {
-  // Fetch the list of news sources
-  const { data: sourcesData, error: sourceError } = useSWR(newsUrl(), fetcher);
-
-  // Conditionally fetch articles if a source is selected
-  const { data: articlesData, error: articleError } = useSWR(
-    selectedSource ? newsUrl(selectedSource) : null,
-    fetcher,
-  );
-
-  return { sourcesData, articlesData, sourceError, articleError };
-};
+export const useFetchNews = (selectedSource) =>
+  useSWR(newsUrl(selectedSource), fetcher);
