@@ -23,10 +23,8 @@ Container.Flex = ({ as, children, className, ...props }) => {
 };
 
 //eslint-disable-next-line
-Container.Link = ({ children, className, href, ...props }) => {
-  return (
-    <Link href={href} className={clsx(className, "cursor-pointer")} {...props}>
-      {children}
-    </Link>
-  );
-};
+Container.Link = ({ children, className, href, ...props }) => (
+  <Link href={href} className={clsx(className, "cursor-pointer")} {...props}>
+    {children}
+  </Link>
+);

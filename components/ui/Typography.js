@@ -3,7 +3,7 @@ import clsx from "clsx";
 export const Typography = {};
 
 //eslint-disable-next-line
-Typography.Title = function ({ as, title, className }) {
+Typography.Title = ({ as, title, className }) => {
   const Component = as ?? "h1";
 
   const variants = {
@@ -18,6 +18,6 @@ Typography.Title = function ({ as, title, className }) {
 };
 
 //eslint-disable-next-line
-Typography.Paragraph = function ({ paragraph, className }) {
-  return <p className={clsx(className)}>{paragraph}</p>;
-};
+Typography.Paragraph = ({ paragraph, className }) => (
+  <p className={clsx(className)}>{paragraph}</p>
+);
