@@ -1,8 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import { fontFamily } from "tailwindcss/defaultTheme";
-const aspectRatio = require("@tailwindcss/aspect-ratio");
 const scrollbarHide = require("tailwind-scrollbar-hide");
-const forms = require("@tailwindcss/forms");
 
 module.exports = {
   content: [
@@ -26,5 +24,5 @@ module.exports = {
       },
     },
   },
-  plugins: [aspectRatio, scrollbarHide, forms],
+  plugins: [scrollbarHide],
 };
