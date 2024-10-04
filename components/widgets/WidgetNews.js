@@ -8,7 +8,6 @@ import {
   Label,
 } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { Post } from "@/components/ui/Post";
 import { Container } from "@/components/ui/Container";
 import { Typography } from "@/components/ui/Typography";
 import { useFetchNews } from "@/helpers/fetchData";
@@ -78,17 +77,23 @@ const Articles = ({ selectedSource }) => {
 };
 
 const Article = ({ article: { url, title, description } }) => (
-  <Post as="article">
+  <Container
+    as="article"
+    className="group relative flex w-full flex-col items-start"
+  >
     <Container.Link
       href={url}
       target="_blank"
       className="flex h-full w-full flex-col justify-between"
     >
-      <Post.Title title={title} />
-      <Post.Description text={description} />
-      <Post.Cta text={"Read article"} />
+      <Typography.Title title={title} as="h2" />
+      <Typography.Paragraph
+        paragraph={description}
+        className="relative mt-2 text-sm text-zinc-600 dark:text-zinc-400"
+      />
+      <Typography.Action text={"Read article"} />
     </Container.Link>
-  </Post>
+  </Container>
 );
 
 /* ********** SELECT SOURCE COMPONENT *********
