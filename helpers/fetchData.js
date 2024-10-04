@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { newsUrl } from "@/library/newsapi";
+import { newsUrl } from "@/library/apiEndPoints";
 
 // Fetcher function used by SWR to fetch data from the API. In case we want to
 // fetch data from other urls, I kept it separate
