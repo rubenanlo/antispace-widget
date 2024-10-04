@@ -18,15 +18,10 @@ import { useFetchNews } from "@/helpers/fetchData";
 // Note that the Observer makes the component reactive to MobX state changes, as
 // part of the process of a global state management approach.
 
-/* TODO: to improve displaying relevant information in the event of an error.
-
-1. Add a message to the user when the API limit is exceeded.
-2. Add a message to the user when the API key is invalid.
-3. Add a loading animation while fetching the data.
-
+/* ********** ARTICLES COMPONENT *********
+Main widget component that combines the source selector and articles list
+components, along with the logic to pass the selected source to the articles list and list of sources
 */
-
-// Main widget component that combines the source selector and articles list
 const WidgetNews = () => {
   const [selectedSource, setSelectedSource] = useState("bbc-news");
 
@@ -65,7 +60,7 @@ const Articles = ({ selectedSource }) => {
 
   const { articles } = data;
 
-  return articles?.length > 0 ? (
+  return !!articles.length > 0 ? (
     <Container.Flex className="h-1/2 w-full flex-col gap-y-10 overflow-auto scrollbar-hide">
       {articles.map((article) => (
         <Article key={article.title} article={article} />
