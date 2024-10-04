@@ -11,7 +11,6 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Post } from "@/components/ui/Post";
 import { Container } from "@/components/ui/Container";
 import { Typography } from "@/components/ui/Typography";
-import { Show } from "@/components/ui/Show";
 import { useFetchNews } from "@/helpers/fetchData";
 
 // This widget fetches articles from newsapi.org and displays them in a list. We
@@ -33,7 +32,8 @@ const WidgetNews = () => {
   const [selectedSource, setSelectedSource] = useState("bbc-news");
 
   return (
-    <Container className="h-96 w-96 overflow-hidden rounded-2xl border border-gray-600 p-5">
+    <Container className="h-96 w-96 overflow-hidden rounded-2xl border border-widget-card p-5">
+      <Typography.Title title="News" />
       <SelectSource
         selectedSource={selectedSource}
         setSelectedSource={setSelectedSource}
@@ -61,19 +61,14 @@ const Articles = ({ selectedSource }) => {
 
   const { articles } = data;
 
-  return (
-    <Show ternary>
-      <Show.When isTrue={articles?.length > 0}>
-        <Container.Flex className="h-2/3 w-full flex-col gap-y-10 overflow-auto scrollbar-hide">
-          {articles.map((article) => (
-            <Article key={article.title} article={article} />
-          ))}
-        </Container.Flex>
-      </Show.When>
-      <Show.Else>
-        <Typography.Paragraph paragraph="No news available for this source." />
-      </Show.Else>
-    </Show>
+  return articles?.length > 0 ? (
+    <Container.Flex className="h-1/2 w-full flex-col gap-y-10 overflow-auto scrollbar-hide">
+      {articles.map((article) => (
+        <Article key={article.title} article={article} />
+      ))}
+    </Container.Flex>
+  ) : (
+    <Typography.Paragraph paragraph="No news available for this source." />
   );
 };
 
@@ -151,7 +146,7 @@ const SelectSource = ({ selectedSource, setSelectedSource }) => {
         </ComboboxButton>
       </Container>
 
-      <Show isTrue={filteredSources?.length > 0}>
+      {filteredSources?.length > 0 && (
         <ComboboxOptions className="absolute z-10 mt-1 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
           {filteredSources?.map((source) => (
             <ComboboxOption
@@ -168,7 +163,7 @@ const SelectSource = ({ selectedSource, setSelectedSource }) => {
             </ComboboxOption>
           ))}
         </ComboboxOptions>
-      </Show>
+      )}
     </Combobox>
   );
 };
