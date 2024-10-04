@@ -1,10 +1,5 @@
-import RootProviders from "@/providers/rootProviders";
 import "@/styles/globals.css";
 
-const App = ({ Component, pageProps }) => (
-  <RootProviders>
-    <Component {...pageProps} />
-  </RootProviders>
-);
+const App = ({ Component, pageProps }) => <Component {...pageProps} />;
 
 export default App;

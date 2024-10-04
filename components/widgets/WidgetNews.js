@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { observer } from "mobx-react-lite";
 import {
   Combobox,
   ComboboxButton,
@@ -14,7 +13,6 @@ import { Container } from "@/components/ui/Container";
 import { Typography } from "@/components/ui/Typography";
 import { Show } from "@/components/ui/Show";
 import { useFetchNews } from "@/helpers/fetchData";
-import { useGeneralStore } from "@/providers/generalStore";
 
 // This widget fetches articles from newsapi.org and displays them in a list. We
 // combine a general state management with mobx and a custom hook to fetch the
@@ -31,12 +29,19 @@ import { useGeneralStore } from "@/providers/generalStore";
 */
 
 // Main widget component that combines the source selector and articles list
-const WidgetNews = () => (
-  <Container className="h-96 w-96 overflow-hidden rounded-2xl border border-gray-600 p-5">
-    <SelectSource />
-    <Articles />
-  </Container>
-);
+const WidgetNews = () => {
+  const [selectedSource, setSelectedSource] = useState("bbc-news");
+
+  return (
+    <Container className="h-96 w-96 overflow-hidden rounded-2xl border border-gray-600 p-5">
+      <SelectSource
+        selectedSource={selectedSource}
+        setSelectedSource={setSelectedSource}
+      />
+      <Articles selectedSource={selectedSource} />
+    </Container>
+  );
+};
 
 export default WidgetNews;
 
@@ -45,9 +50,7 @@ The Articles and article components handle all the logic to display each article
 fetched from the API.
 */
 
-const Articles = observer(() => {
-  const { selectedSource } = useGeneralStore();
-
+const Articles = ({ selectedSource }) => {
   const { data, error } = useFetchNews(selectedSource);
 
   if (error)
@@ -72,7 +75,7 @@ const Articles = observer(() => {
       </Show.Else>
     </Show>
   );
-});
+};
 
 const Article = ({ article: { url, title, description } }) => (
   <Post as="article">
@@ -97,11 +100,9 @@ right information
 
 */
 
-const SelectSource = observer(() => {
-  const [query, setQuery] = useState("");
-  const { selectedSource, setSelectedSource } = useGeneralStore();
-
+const SelectSource = ({ selectedSource, setSelectedSource }) => {
   const { data, error } = useFetchNews();
+  const [query, setQuery] = useState("");
 
   if (error) return <Container />;
 
@@ -170,4 +171,4 @@ const SelectSource = observer(() => {
       </Show>
     </Combobox>
   );
-});
+};
