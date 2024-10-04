@@ -32,7 +32,7 @@ import { useGeneralStore } from "@/providers/generalStore";
 
 // Main widget component that combines the source selector and articles list
 const WidgetNews = () => (
-  <Container className="h-96 max-w-sm rounded-2xl border border-gray-600 p-5">
+  <Container className="h-96 w-96 overflow-hidden rounded-2xl border border-gray-600 p-5">
     <SelectSource />
     <Articles />
   </Container>
@@ -48,20 +48,20 @@ fetched from the API.
 const Articles = observer(() => {
   const { selectedSource } = useGeneralStore();
 
-  const { articlesData, articleError } = useFetchNews(selectedSource);
+  const { data, error } = useFetchNews(selectedSource);
 
-  if (articleError)
+  if (error)
     return (
       <Container>Failed to load news, check if you exceed your limit</Container>
     );
-  if (!articlesData) return <Container>Loading...</Container>;
+  if (!data) return <Container>Loading...</Container>;
 
-  const { articles } = articlesData;
+  const { articles } = data;
 
   return (
     <Show ternary>
       <Show.When isTrue={articles?.length > 0}>
-        <Container.Flex className="h-4/5 w-full flex-col gap-y-10 overflow-auto scrollbar-hide">
+        <Container.Flex className="h-full w-full flex-col gap-y-10 overflow-auto scrollbar-hide">
           {articles.map((article) => (
             <Article key={article.title} article={article} />
           ))}
@@ -101,13 +101,13 @@ const SelectSource = observer(() => {
   const [query, setQuery] = useState("");
   const { selectedSource, setSelectedSource } = useGeneralStore();
 
-  const { sourcesData, sourceError } = useFetchNews();
+  const { data, error } = useFetchNews();
 
-  if (sourceError) return <Container />;
+  if (error) return <Container />;
 
-  if (!sourcesData) return <Container />;
+  if (!data) return <Container />;
 
-  const { sources } = sourcesData;
+  const { sources } = data;
 
   const filteredSources =
     query === ""
@@ -151,7 +151,7 @@ const SelectSource = observer(() => {
       </Container>
 
       <Show isTrue={filteredSources?.length > 0}>
-        <ComboboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+        <ComboboxOptions className="absolute z-10 mt-1 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
           {filteredSources?.map((source) => (
             <ComboboxOption
               key={source.id}
