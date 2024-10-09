@@ -22,11 +22,8 @@ import { useFetchNews } from "@/helpers/fetchData";
 Main widget component that combines the source selector and articles list
 components, along with the logic to pass the selected source to the articles list and list of sources
 */
-const WidgetNews = () => {
-  const [selectedSource, setSelectedSource] = useState({
-    id: "bbc-news",
-    name: "BBC News",
-  });
+const WidgetNews = ({ initialRender: { initialNews, sources } }) => {
+  const [selectedSource, setSelectedSource] = useState(sources[0]);
 
   return (
     <Container className="h-96 w-96 overflow-hidden rounded-2xl border border-widget-card p-5">
@@ -34,8 +31,9 @@ const WidgetNews = () => {
       <SelectSource
         selectedSource={selectedSource}
         setSelectedSource={setSelectedSource}
+        sources={sources}
       />
-      <Articles selectedSource={selectedSource?.id} />
+      <Articles selectedSource={selectedSource?.id} initialNews={initialNews} />
     </Container>
   );
 };
@@ -47,8 +45,8 @@ The Articles and article components handle all the logic to display each article
 fetched from the API.
 */
 
-const Articles = ({ selectedSource }) => {
-  const { data, error } = useFetchNews(selectedSource);
+const Articles = ({ selectedSource, initialNews }) => {
+  const { data, error } = useFetchNews(selectedSource, initialNews);
 
   if (error || !data)
     return (
@@ -103,9 +101,7 @@ right information
 
 */
 
-const SelectSource = ({ selectedSource, setSelectedSource }) => {
-  const { data, error } = useFetchNews();
-
+const SelectSource = ({ selectedSource, setSelectedSource, sources }) => {
   // I generated this useState to filter the sources based on the user's input.
   // If I were to mutate the selectedSource state directly, it would cause a
   // re-render of the Articles component, which would result in a new fetch
@@ -114,10 +110,6 @@ const SelectSource = ({ selectedSource, setSelectedSource }) => {
   // created a separate state to handle the user's input and only update the
   // selectedSource state when the user selects a source from the dropdown menu.
   const [query, setQuery] = useState("");
-
-  if (error || !data) return;
-
-  const { sources } = data;
 
   const filteredSources =
     sources?.filter((source) =>
