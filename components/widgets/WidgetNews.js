@@ -122,7 +122,7 @@ const SelectSource = ({ selectedSource, setSelectedSource, sources }) => {
     <Combobox
       as="div"
       value={selectedSource}
-      onChange={setSelectedSource}
+      onChange={(source) => source && setSelectedSource(source)} // we need this short circuit rendering approach because otherwise, the selectedSource would become null when the user deletes the input in the box
       className="relative mb-10"
     >
       <Label className="block text-sm font-medium leading-6">
