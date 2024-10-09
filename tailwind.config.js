@@ -3,6 +3,7 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 const scrollbarHide = require("tailwind-scrollbar-hide");
 
 module.exports = {
+  mode: "jit",
   content: [
     "./pages/**/*.{js, jsx}",
     "./components/**/*.{js, jsx}",
