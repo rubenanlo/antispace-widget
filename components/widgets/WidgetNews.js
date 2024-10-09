@@ -23,7 +23,10 @@ Main widget component that combines the source selector and articles list
 components, along with the logic to pass the selected source to the articles list and list of sources
 */
 const WidgetNews = () => {
-  const [selectedSource, setSelectedSource] = useState("bbc-news");
+  const [selectedSource, setSelectedSource] = useState({
+    id: "bbc-news",
+    name: "BBC News",
+  });
 
   return (
     <Container className="h-96 w-96 overflow-hidden rounded-2xl border border-widget-card p-5">
@@ -32,7 +35,7 @@ const WidgetNews = () => {
         selectedSource={selectedSource}
         setSelectedSource={setSelectedSource}
       />
-      <Articles selectedSource={selectedSource} />
+      <Articles selectedSource={selectedSource?.id} />
     </Container>
   );
 };
@@ -123,14 +126,11 @@ const SelectSource = ({ selectedSource, setSelectedSource }) => {
 
   // This function is only used to display the name of the source in the
   // dropdown menu.
-  const getName = (sourceInput = selectedSource) =>
-    sources?.find((source) => source.id === sourceInput)?.name;
-
   return (
     <Combobox
       as="div"
       value={selectedSource}
-      onChange={(source) => source && setSelectedSource(source)} // we need this short circuit rendering approach because otherwise, the selectedSource would become null whe the user deletes the input in the box
+      onChange={setSelectedSource}
       className="relative mb-10"
     >
       <Label className="block text-sm font-medium leading-6">
@@ -141,7 +141,7 @@ const SelectSource = ({ selectedSource, setSelectedSource }) => {
           className="w-full rounded-md border-0 bg-foreground py-1.5 pl-3 pr-10 text-background ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-primary sm:text-sm sm:leading-6"
           onChange={(event) => setQuery(event.target.value)}
           onBlur={() => setQuery("")}
-          displayValue={(source) => getName(source)}
+          displayValue={({ name }) => name}
         />
         <ComboboxButton className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
           <ChevronUpDownIcon className="w-5 text-gray-400" aria-hidden="true" />
@@ -153,7 +153,7 @@ const SelectSource = ({ selectedSource, setSelectedSource }) => {
           {filteredSources.map(({ id, name }) => (
             <ComboboxOption
               key={id}
-              value={id}
+              value={{ id, name }}
               className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-green-primary data-[focus]:text-white"
             >
               <span className="block truncate group-data-[selected]:font-semibold">
